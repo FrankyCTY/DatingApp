@@ -10,12 +10,13 @@ import { User } from '../_models/user';
 export class AccountService {
 
   baseUrl = "https://localhost:5001/api/";
-  private currentUserSource = new ReplaySubject<User>(1);
+  private currentUserSource = new ReplaySubject<User>(1); // listen to the changes of user
   currentUser$ = this.currentUserSource.asObservable();
   
   constructor(private http: HttpClient) { }
 
-  login(model: any) {
+  login(model: any) { // pipe returns Observable and we will subscribe it in component (nav.component.ts)
+    // Error will only be handled in subscribe
     return this.http.post(this.baseUrl + 'account/login', model).pipe(
       map((response: User) => {
         const user = response;
